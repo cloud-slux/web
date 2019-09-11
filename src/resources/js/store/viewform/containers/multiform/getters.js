@@ -1,0 +1,71 @@
+const getFields = state => {
+    return state.fields;
+};
+
+const getUsedFields = state => {
+    let returnObject = {};
+    for (var property in state.fields) {
+        if (state.fields.hasOwnProperty(property)) {
+            const field = state.fields[property];
+            if (field.used) {
+                returnObject[property] = field;
+            }
+        }
+    }
+
+    return returnObject;
+};
+
+const getSingularName = state => {
+    return state.singularName;
+};
+
+const getSchema = state => {
+    let schema = [];
+
+    const usedFields = getUsedFields(state);
+
+    for (var property in usedFields) {
+        if (state.fields.hasOwnProperty(property)) {
+            const field = usedFields[property];
+            schema.push({
+                fieldType: field.type + '-input',
+                name: field.name,
+                placeholder: field.alias,
+                label: field.alias
+            });
+        }
+    }
+    return schema;
+};
+
+const getCreateSchema = state => {
+    let schema = getSchema(state);
+    for( var i = 0; i < schema.length; i++){
+        if ( schema[i].name === '_id') {
+           schema.splice(i, 1);
+        }
+     }
+
+    return schema;
+};
+
+const getMaps = state => {
+    return state.maps;
+};
+
+const getPickers = state => {
+    return state.pickers;
+};
+
+export default {
+    getFields,
+    getUsedFields,
+    getSingularName,
+    getSchema,
+    getCreateSchema,
+    getMaps,
+    getPickers
+};
+
+export {getUsedFields}
