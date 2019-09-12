@@ -38,10 +38,10 @@ class FormBuilder
         $form->buildForm();
 
         $form->buildMaps();
+        $form->builded  = true;
         $this->mapCaching($form);
 
         ViewFormModuleFacade::setFormByRouteName($form);
-
 
         $form->buildPickers();
 

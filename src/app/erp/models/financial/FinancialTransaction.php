@@ -61,7 +61,13 @@ class FinancialTransaction extends Form
     {
         $financialAccountRouteName = 'financial.account';
         $financialAccountInstance = ViewFormModuleFacade::getFormByRouteName($financialAccountRouteName);
+        $financialAccountInstance->setFormHelper($this->formHelper);
+        if(!$financialAccountInstance->builded){
+            $financialAccountInstance->buildForm();
+            $financialAccountInstance->builded = true;
+        }
         $financialAccountMatchedFields = $financialAccountInstance->getFieldsByNames(['description']);
+        
 
         $creditAccountIdAdapter = new PickerAdapter();
         $creditAccountIdAdapter->withRoute($financialAccountInstance->route)
@@ -80,6 +86,11 @@ class FinancialTransaction extends Form
 
         $financialClassificationRouteName = 'financial.classification';
         $financialClassificationInstance = ViewFormModuleFacade::getFormByRouteName($financialClassificationRouteName);
+        $financialClassificationInstance->setFormHelper($this->formHelper);
+        if(!$financialClassificationInstance->builded){
+            $financialClassificationInstance->buildForm();
+            $financialClassificationInstance->builded = true;
+        }
         $financialClassificationMatchedFields = $financialClassificationInstance->getFieldsByNames(['description', 'code', 'type', 'class']);
 
         $creditClassificationIdAdapter = new PickerAdapter();
@@ -103,6 +114,11 @@ class FinancialTransaction extends Form
 
         $managementCostCenterRouteName = 'management.costcenter';
         $managementCostCenterInstance = ViewFormModuleFacade::getFormByRouteName($managementCostCenterRouteName);
+        $managementCostCenterInstance->setFormHelper($this->formHelper);
+        if(!$managementCostCenterInstance->builded){
+            $managementCostCenterInstance->buildForm();
+            $managementCostCenterInstance->builded = true;
+        }
         $managementCostCenterMatchedFields = $managementCostCenterInstance->getFieldsByNames(['description']);
 
         $creditCostCenterIdAdapter = new PickerAdapter();

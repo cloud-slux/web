@@ -30,6 +30,8 @@ class Form
 
     public $formHelper;
 
+    public $builded = false;
+
      /**
      * Set the form helper only on first instantiation.
      *

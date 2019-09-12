@@ -15,6 +15,7 @@ export default {
       originalData: null,
       toolFilter: '',
       queryFilter: '',
+      apiUrl: '',
       fields: {},
       maps: {},
       singularName: ''

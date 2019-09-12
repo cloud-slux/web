@@ -6,7 +6,7 @@ const apiFetch = ({ commit, state, dispatch }, page = 1) => {
     }
 
     let fullurl =
-        'http://localhost:8081' +
+        state.apiUrl +
         window.location.pathname +
         '?page=' +
         page +
@@ -33,10 +33,10 @@ const apiFetch = ({ commit, state, dispatch }, page = 1) => {
     });
 };
 
-const apiDelete = ({ dispatch }, _id = '') => {
+const apiDelete = ({ state, dispatch }, _id = '') => {
 
     let fullurl =
-        'http://localhost:8081' +
+        state.apiUrl +
         window.location.pathname +
         '/' + _id;
 
@@ -87,6 +87,12 @@ const changeSingularName = ({commit, state}, singularName = '') => {
     }
 }
 
+const changeApiUrl= ({commit, state}, apiUrl = '') => {
+    if(state.apiUrl != apiUrl){
+        commit(types.CHANGE_API_URL, apiUrl);
+    }
+}
+
 export default {
     apiFetch,
     apiDelete,
@@ -96,5 +102,6 @@ export default {
     changeQueryFilter,
     changeFields,
     changeMaps,
-    changeSingularName
+    changeSingularName,
+    changeApiUrl
 };

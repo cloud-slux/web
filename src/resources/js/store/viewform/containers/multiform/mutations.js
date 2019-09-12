@@ -33,6 +33,10 @@ const changeDataProperty = (state, propertyValue) => {
     state.data[propertyValue.property] = propertyValue.value;
 };
 
+const changeApiUrl= (state, apiUrl) => {
+    state.apiUrl = apiUrl;
+};
+
 const apiCalling = (state) => {
     state.apiCalling = true;
 }
@@ -51,6 +55,7 @@ export default {
     [types.CHANGE_SINGULAR_NAME]: changeSingularName,
     [types.CHANGE_MODE]: changeMode,
     [types.CHANGE_DATA_PROPERTY]: changeDataProperty,
+    [types.CHANGE_API_URL]: changeApiUrl,
     [types.API_CALLING]: apiCalling,
     [types.API_CALL]: apiCall
 };

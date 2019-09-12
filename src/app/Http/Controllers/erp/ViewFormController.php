@@ -35,7 +35,7 @@ class ViewFormController extends BaseController
         $form = $formBuilder->create(get_class($this->form));
 
         return view('viewForm.index', compact('form'))
-        ->with('apiUrl', 'http://localhost:8081');
+        ->with('apiUrl', env('API_URL', 'http://api.slux.net.br'));
     }
 
     public function show(FormBuilder $formBuilder)
@@ -43,7 +43,7 @@ class ViewFormController extends BaseController
         $form = $formBuilder->create(get_class($this->form));
 
         return view('viewForm.show', compact('form'))
-          ->with('apiUrl', 'http://localhost:8081');
+          ->with('apiUrl', env('API_URL', 'http://api.slux.net.br'));
     }
 
     public function routeNameId(){

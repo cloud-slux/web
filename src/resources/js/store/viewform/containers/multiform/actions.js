@@ -7,7 +7,7 @@ const apiFetch = ({ commit, state }, _id = '') => {
         commit(types.LOADING);
     }
 
-    let fullurl = 'http://localhost:8081' + moduleName() + '/' + _id;
+    let fullurl = state.apiUrl + moduleName() + '/' + _id;
 
     // console.log(fullurl);
 
@@ -31,7 +31,7 @@ const emptyData = ({ commit, state }) => {
 };
 
 const apiCreate = ({ commit, state }) => {
-    let fullurl = 'http://localhost:8081' + moduleName();
+    let fullurl = state.apiUrl + moduleName();
 
     let postObject = Object.assign({}, state.data);
     delete postObject._id;
@@ -45,7 +45,7 @@ const apiCreate = ({ commit, state }) => {
 };
 
 const apiUpdate = ({ commit, state }) => {
-    let fullurl = 'http://localhost:8081' + moduleName();
+    let fullurl = state.apiUrl + moduleName();
 
     commit(types.API_CALLING);
 
@@ -89,6 +89,12 @@ const changeMode = ({ commit, dispatch, state }, mode = 'show') => {
     }
 };
 
+const changeApiUrl = ({ commit, state }, apiUrl = '') => {
+    if (state.apiUrl != apiUrl) {
+        commit(types.CHANGE_API_URL, apiUrl);
+    }
+};
+
 const changeDataProperty = ({ commit, state }, propertyValue) => {
     if (state.data[propertyValue.property] != propertyValue.value) {
         commit(types.CHANGE_DATA_PROPERTY, propertyValue);
@@ -105,5 +111,6 @@ export default {
     changePickers,
     changeSingularName,
     changeMode,
+    changeApiUrl,
     changeDataProperty
 };

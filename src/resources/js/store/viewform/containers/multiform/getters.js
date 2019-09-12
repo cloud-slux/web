@@ -20,6 +20,10 @@ const getSingularName = state => {
     return state.singularName;
 };
 
+const getApiUrl = state => {
+    return state.apiUrl;
+};
+
 const getSchema = state => {
     let schema = [];
 
@@ -65,7 +69,8 @@ export default {
     getSchema,
     getCreateSchema,
     getMaps,
-    getPickers
+    getPickers,
+    getApiUrl
 };
 
 export {getUsedFields}

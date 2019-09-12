@@ -3,9 +3,10 @@ import { mapState, mapActions, mapGetters } from "vuex";
 import socket from "socket.io-client";
 import { moduleName } from "../../helpers/dynamicModule";
 
-const io = socket("http://localhost:8081");
+//const io = socket("http://api.slux.net.br");
 
 Vue.component("table-blade", {
+  props: ['url'],
   data() {
     return {
       deleteModalActive: false,
@@ -26,7 +27,7 @@ Vue.component("table-blade", {
     ])
   },
   methods: {
-    ...mapActions(moduleName(), ["apiFetch", "apiDelete"]),
+    ...mapActions(moduleName(), ["apiFetch", "apiDelete", "changeApiUrl"]),
     onDeleteModalActive(item) {
       this.deleteModalActive = true;
       this.selectedItem = item;
@@ -131,15 +132,15 @@ Vue.component("table-blade", {
     });
   },
   mounted() {
-    io.on(moduleName(), data => {
-      this.$bvToast.toast(data.message, {
-        title: "Aviso",
-        toaster: "b-toaster-top-center",
-        autoHideDelay: 2000,
-        variant: data.class
-      });
-    });
-
+    // io.on(moduleName(), data => {
+    //   this.$bvToast.toast(data.message, {
+    //     title: "Aviso",
+    //     toaster: "b-toaster-top-center",
+    //     autoHideDelay: 2000,
+    //     variant: data.class
+    //   });
+    // });
+    this.changeApiUrl(this.url);
     this.apiFetch(1);
     //this.$store.dispatch(name +'apiFetch');
   }

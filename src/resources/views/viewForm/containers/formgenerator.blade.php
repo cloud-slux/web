@@ -1,4 +1,4 @@
-<form-generator>
+<form-generator url="{!! $apiUrl !!}">
   <div slot="loading">
     <div class="d-flex justify-content-center">
       <div class="spinner-border text-primary" style="width: 6rem; height: 6rem;" role="status">

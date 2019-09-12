@@ -33,12 +33,13 @@ import moduleIndex from './viewform/containers/moduleIndex.vue'
 import toolBox from './viewform/containers/toolbox.vue';
 import filterBox from './viewform/containers/filterbox.vue';
 
-import numberInput from "./viewform/components/numberinput";
-import choiceInput from "./viewform/components/choiceinput";
-import selectInput from "./viewform/components/selectinput";
-import pickerInput from "./viewform/components/pickerinput";
-import textInput from "./viewform/components/textinput";
-import progressBar from "./viewform/components/progressbar";
+import numberInput from "./viewform/components/numberInput";
+import choiceInput from "./viewform/components/choiceInput";
+import selectInput from "./viewform/components/selectInput";
+import pickerInput from "./viewform/components/pickerInput";
+import textInput from "./viewform/components/textInput";
+import progressBar from "./viewform/components/progressBar";
+
 
 
 import classificationComponent from './components/financial/ClassificationComponent.vue';

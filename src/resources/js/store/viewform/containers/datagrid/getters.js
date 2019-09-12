@@ -40,6 +40,10 @@ const getSingularName = state => {
     return state.singularName;
 }
 
+const getApiUrl = state => {
+    return state.apiUrl;
+}
+
 const getMaps = state => {
     return state.maps;
 };
@@ -54,5 +58,6 @@ export default {
     getFields,
     getBrowsedFields,
     getSingularName,
+    getApiUrl,
     getMaps
 };

@@ -57,6 +57,10 @@ const changeSingularName = (state, singularName) => {
     state.singularName = singularName;
 }
 
+const changeApiUrl = (state, apiUrl) => {
+    state.apiUrl = apiUrl;
+}
+
 export default {
     [types.SUCCESS]: success,
     [types.LOADING]: loading,
@@ -67,5 +71,6 @@ export default {
     [types.CHANGE_QUERY_FILTER]: changeQueryFilter,
     [types.CHANGE_FIELDS]: changeFields,
     [types.CHANGE_MAPS]: changeMaps,
-    [types.CHANGE_SINGULAR_NAME]: changeSingularName
+    [types.CHANGE_SINGULAR_NAME]: changeSingularName,
+    [types.CHANGE_API_URL]: changeApiUrl
 };

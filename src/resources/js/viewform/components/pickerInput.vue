@@ -92,6 +92,8 @@
   </div>
 </template>
 <script>
+import { mapGetters } from "vuex";
+
 import { moduleName } from "../../helpers/dynamicModule";
 const fullModuleName = moduleName() + "/multiform";
 
@@ -143,6 +145,7 @@ export default {
     };
   },
   computed: {
+    ...mapGetters(fullModuleName, { apiUrl: "getApiUrl" }),
     disabled() {
       return this.name === "_id";
     },
@@ -160,9 +163,6 @@ export default {
     this.pickerSearched = this.pickerData;
   },
   methods: {
-    handleBlur() {
-      console.log('blur', this.inputValue);
-    },
     onPickerModalActive() {
       this.pickerFilter = "";
       this.pickerSearch = "";
@@ -209,7 +209,7 @@ export default {
           limit = 999;
       }
 
-      let fullurl = `http://localhost:8081${this.pickerDeclaredRoute}?limit=${limit}&select=`;
+      let fullurl = `${this.apiUrl}${this.pickerDeclaredRoute}?limit=${limit}&select=`;
 
       let preFilterSentence = ''
       if(this.pickerPreFilter.length > 0){

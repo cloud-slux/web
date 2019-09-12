@@ -5,6 +5,7 @@ import { moduleName } from "../../helpers/dynamicModule";
 const fullModuleName = moduleName() + "/multiform";
 
 Vue.component("form-generator", {
+  props: ['url'],
   computed: {
     ...mapState(fullModuleName, {
       formData: state => state.data,
@@ -17,6 +18,9 @@ Vue.component("form-generator", {
       maps: "getMaps",
       pickers: "getPickers"
     })
+  },
+  mounted() {
+    this.changeApiUrl(this.url);
   },
   render() {
     if (this.loading) {
@@ -42,6 +46,7 @@ Vue.component("form-generator", {
     });
   },
   methods: {
+    ...mapActions(fullModuleName, ["changeApiUrl"]),
     getPickerRouteFromField(field) {
       let pickerRoute = "";
       if (this.pickers.hasOwnProperty(field.name)) {

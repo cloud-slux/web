@@ -15,6 +15,7 @@ export default {
       pickers: {},
       singularName: '',
       mode: 'show',
+      apiUrl: '',
       apiCalling: false,
       apiCallObject: {},
     }
