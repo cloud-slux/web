@@ -132,8 +132,8 @@ export default {
       inputDisplay: this.value,
       pickerModalAtive: false,
       noPickedAlert: false,
-      pickerSearched: [],
       pickerData: [],
+      pickerSearched: [],
       pickerDeclaredRoute: this.pickerRoute,
       pickerDeclaredSchema: this.pickerSchema,
       pickerDeclaredHiddenFields: this.pickerHiddenFields,
@@ -213,7 +213,7 @@ export default {
 
       let preFilterSentence = ''
       if(this.pickerPreFilter.length > 0){
-          preFilterSentence = this.pickerPreFilter+'.AND.';
+          preFilterSentence = `.AND.${this.pickerPreFilter}`;
       }
 
       let schemaNames = Object.keys(this.pickerDeclaredSchema);
@@ -223,7 +223,9 @@ export default {
       }
 
       fullurl += schemaNames.join(",");
-      fullurl += `&q=${preFilterSentence}(${schemaFilters.join(".OR.")})`;
+      if(!(this.pickerFilter === "")){
+        fullurl += `&q=(${schemaFilters.join(".OR.")})${preFilterSentence}`;
+      }
       //this.pickerLoading = true;
       axios.get(fullurl, { crossdomain: true }).then(response => {
         //this.pickerLoading = false;

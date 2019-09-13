@@ -73,13 +73,15 @@ class FinancialTransaction extends Form
         $creditAccountIdAdapter->withRoute($financialAccountInstance->route)
             ->withSchema($financialAccountMatchedFields)
             ->withPickerDisplayExpression('${this.picked._id}')
-            ->withPickerHooks(array(array('property' => 'creditAccountName', 'value' => '${_this.picked.description}')));
+            ->withPickerHooks(array(array('property' => 'creditAccountName', 'value' => '${_this.picked.description}')))
+            ->withPickerHiddenFields([]);
 
         $debitAccountIdAdapter = new PickerAdapter();
         $debitAccountIdAdapter->withRoute($financialAccountInstance->route)
             ->withSchema($financialAccountMatchedFields)
             ->withPickerDisplayExpression('${this.picked._id}')
-            ->withPickerHooks(array(array('property' => 'debitAccountName', 'value' => '${_this.picked.description}')));
+            ->withPickerHooks(array(array('property' => 'debitAccountName', 'value' => '${_this.picked.description}')))
+            ->withPickerHiddenFields([]);
 
         $this->addPicker(array('creditAccountId' => $creditAccountIdAdapter))->addPicker(array('debitAccountId' => $debitAccountIdAdapter));
 
@@ -125,12 +127,14 @@ class FinancialTransaction extends Form
         $creditCostCenterIdAdapter->withRoute($managementCostCenterInstance->route)
             ->withSchema($managementCostCenterMatchedFields)
             ->withPickerDisplayExpression('${this.picked._id}')
+            ->withPickerHiddenFields([])
             ->withPickerHooks(array(array('property' => 'creditCostCenterName', 'value' => '${_this.picked.description}')));
 
         $debitCostCenterIdAdapter = new PickerAdapter();
         $debitCostCenterIdAdapter->withRoute($managementCostCenterInstance->route)
             ->withSchema($financialClassificationMatchedFields)
             ->withPickerDisplayExpression('${this.picked._id}')
+            ->withPickerHiddenFields([])
             ->withPickerHooks(array(array('property' => 'debitCostCenterName', 'value' => '${_this.picked.description}')));
 
         $this->addPicker(array('creditCostCenterId' => $creditCostCenterIdAdapter))->addPicker(array('debitCostCenterId' => $debitCostCenterIdAdapter));
