@@ -7,4 +7,4 @@ jobs:
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v1
-      - uses: ./github/actions/composer
+      - uses: ./.github/actions/composer
