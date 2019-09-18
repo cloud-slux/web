@@ -1,6 +1,6 @@
 <template>
   <div class="md-layout-item md-small-size-100">
-    <md-field>
+    <md-field v-if="visible" >
       <label for="first-name">{{ label }}</label>
       <md-input
         :value="inputValue"
@@ -31,7 +31,8 @@ export default {
   props: ["placeholder", "label", "name", "value", "readonly", "mode"],
   data() {
     return {
-      inputName: this.name
+      inputName: this.name,
+      visible: true,
     };
   },
   computed: {

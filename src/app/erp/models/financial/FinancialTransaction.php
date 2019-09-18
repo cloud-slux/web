@@ -29,10 +29,7 @@ class FinancialTransaction extends Form
     {
 
         $this->add('_id', 'ID', 'ID', UIComponent::TEXT, true, true)
-             ->add('companyId', 'Código da Empresa', 'Cód. da Emp.', UIComponent::TEXT, true, false)
-             ->add('companyName', 'Nome de Empresa', 'Empresa', UIComponent::TEXT, true, true)
              ->add('type', 'Tipo da Transação', 'Tipo', UIComponent::SELECT, true, true)
-             ->add('origin', 'Origem', 'Origem', UIComponent::TEXT, true, false)
              ->add('date', 'Data', 'Data', UIComponent::DATEPICKER, true, true)
              ->add('description', 'Descrição', 'Descrição', UIComponent::TEXT, true, true)
              ->add('creditAccountId', 'Código da Conta Crédito', 'Cód Conta Crédito', UIComponent::PICKER, true, false)
@@ -49,7 +46,6 @@ class FinancialTransaction extends Form
              ->add('debitCostCenterId', 'Código da Centro de Custo Débito', 'Cód. CC Débito', UIComponent::PICKER, true, false)
              ->add('debitCostCenterName', 'Nome do Centro de Custo Débito', 'CC Débito', UIComponent::TEXT, true, false)
              ->add('debitValue', 'Valor de Débito', 'Valor Débito', UIComponent::TEXT, true, true);
-
     }
 
     public function buildMaps()

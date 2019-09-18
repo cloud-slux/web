@@ -15,15 +15,6 @@ services:
        - "80:80"
        - "443:443"
 
-    node-js:
-      image: node:10.16.3-alpine
-      container_name: laravel-node
-      working_dir: /application
-      command: yarn watch
-      volumes:
-        - ./src:/application
-        - /application/node_modules
-    
     php-fpm:
       build: phpdocker/php-fpm
       container_name: laravel-php-fpm
@@ -31,3 +22,12 @@ services:
       volumes:
         - ./src:/application
         - ./phpdocker/php-fpm/php-ini-overrides.ini:/etc/php/7.3/fpm/conf.d/99-overrides.ini
+
+    node-js:
+      image: node:10.16.3-alpine
+      container_name: laravel-node
+      working_dir: /application
+      command: /bin/sh -c "yarn install && yarn watch"
+      volumes:
+        - ./src:/application
+        - /application/node_modules

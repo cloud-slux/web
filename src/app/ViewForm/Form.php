@@ -66,8 +66,9 @@ class Form
     {
     }
 
-
-
+    public function buildConditionalDisabling()
+    {
+    }
 
     public function add($name, $alias, $shortAlias, $type = 'text', $used, $browsed)
     {
@@ -137,24 +138,5 @@ class Form
         $this->pickers = array_merge($this->pickers, $arrayPick);
         return $this;
     }
-
-    // public function renderDataGrid(){
-
-    //     $this->buildForm();
-
-    //     return view('viewForm.containers.datagrid')
-    //         ->with('form', $this)
-    //         ->with('apiUrl', 'http://localhost:8081');
-    // }
-
-    // public function renderMultiForm(){
-
-    //     $this->buildForm();
-
-    //     return view('viewForm.containers.multiform')
-    //         ->with('form', $this)
-    //         ->with('apiUrl', 'http://localhost:8081');
-    // }
-
 
 }
