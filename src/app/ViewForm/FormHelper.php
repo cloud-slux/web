@@ -25,6 +25,8 @@ class FormHelper
 
   protected static $availableFieldTypes = [
   'text'           => 'InputType',
+  'number'         => 'NumberType',
+  'money'          => 'MoneyType',
   'textarea'       => 'TextareaType',
   'select'         => 'SelectType',
   'choice'         => 'ChoiceType',

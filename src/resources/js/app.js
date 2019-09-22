@@ -34,6 +34,7 @@ import toolBox from './viewform/containers/toolbox.vue';
 import filterBox from './viewform/containers/filterbox.vue';
 
 import numberInput from "./viewform/components/numberInput";
+import moneyInput from "./viewform/components/moneyInput";
 import choiceInput from "./viewform/components/choiceInput";
 import selectInput from "./viewform/components/selectInput";
 import pickerInput from "./viewform/components/pickerInput";
@@ -85,6 +86,7 @@ const app = new Vue({
         'choice-input': choiceInput,
         'picker-input': pickerInput,
         'select-input': selectInput,
-        'number-input': numberInput
+        'number-input': numberInput,
+        'money-input': moneyInput
     }
 });

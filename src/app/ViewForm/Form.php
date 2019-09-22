@@ -28,6 +28,10 @@ class Form
 
     public $pickers = [];
 
+    public $visibilityTriggers = [];
+
+    public $defaults = [];    
+
     public $formHelper;
 
     public $builded = false;
@@ -66,8 +70,12 @@ class Form
     {
     }
 
-    public function buildConditionalDisabling()
+    public function buildConditionalVisibility()
     {
+    }
+
+    public function buildDefaults(){
+
     }
 
     public function add($name, $alias, $shortAlias, $type = 'text', $used, $browsed)
@@ -136,6 +144,18 @@ class Form
     public function addPicker($arrayPick)
     {
         $this->pickers = array_merge($this->pickers, $arrayPick);
+        return $this;
+    }
+
+    public function addVisibilityTrigger($visibilityTrigger)
+    {
+        $this->visibilityTriggers = array_merge($this->visibilityTriggers, $visibilityTrigger);
+        return $this;
+    }
+
+    public function addDefault($default)
+    {
+        $this->defaults = array_merge($this->defaults, $default);
         return $this;
     }
 

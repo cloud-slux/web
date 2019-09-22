@@ -5,6 +5,8 @@ namespace App\erp\models\financial;
 use App\ViewForm\Form;
 use App\ViewForm\UIComponent;
 use App\ViewForm\DataAdapters\PickerAdapter;
+use App\ViewForm\DataAdapters\VisibilityAdapter;
+use App\ViewForm\DataAdapters\VisibilityBehavior;
 
 use App\erp\facades\ViewFormModuleFacade;
 
@@ -38,14 +40,15 @@ class FinancialTransaction extends Form
              ->add('creditClassificationName', 'Nome da Classificação de Crédito', 'Class. Crédito', UIComponent::TEXT, true, false)
              ->add('creditCostCenterId', 'Código da Centro de Custo Crédito', 'Cód. CC Crédito', UIComponent::PICKER, true, false)
              ->add('creditCostCenterName', 'Nome do Centro de Custo Crédito', 'CC Crédito', UIComponent::TEXT, true, false)
-             ->add('creditValue', 'Valor de Crédito', 'Valor Crédito', UIComponent::TEXT, true, true)
+             ->add('creditValue', 'Valor de Crédito', 'Valor Crédito', UIComponent::MONEY, true, true)
              ->add('debitAccountId', 'Código da Conta Débito', 'Cód. Conta Débito', UIComponent::PICKER, true, false)
              ->add('debitAccountName', 'Nome da Conta Débito', 'Conta Débito', UIComponent::TEXT, true, true)
              ->add('debitClassificationId', 'Código da Classificação de Débito', 'Cód. Class. Débito', UIComponent::PICKER, true, false)
              ->add('debitClassificationName', 'Nome da Classificação de Débito', 'Class. Débito', UIComponent::TEXT, true, false)
              ->add('debitCostCenterId', 'Código da Centro de Custo Débito', 'Cód. CC Débito', UIComponent::PICKER, true, false)
              ->add('debitCostCenterName', 'Nome do Centro de Custo Débito', 'CC Débito', UIComponent::TEXT, true, false)
-             ->add('debitValue', 'Valor de Débito', 'Valor Débito', UIComponent::TEXT, true, true);
+             ->add('debitValue', 'Valor de Débito', 'Valor Débito', UIComponent::MONEY, true, true)
+             ->add('transferValue', 'Valor de Transferência', 'Valor Transferência', UIComponent::MONEY, true, true);
     }
 
     public function buildMaps()
@@ -134,5 +137,52 @@ class FinancialTransaction extends Form
             ->withPickerHooks(array(array('property' => 'debitCostCenterName', 'value' => '${_this.picked.description}')));
 
         $this->addPicker(array('creditCostCenterId' => $creditCostCenterIdAdapter))->addPicker(array('debitCostCenterId' => $debitCostCenterIdAdapter));
+    }
+
+    public function buildConditionalVisibility()
+    {    
+        $behaviorC = new VisibilityBehavior();
+        $behaviorC
+            ->withValue('C')
+            ->withInvisibleFields('debitAccountId')
+            ->withInvisibleFields('debitAccountName')
+            ->withInvisibleFields('debitClassificationId')
+            ->withInvisibleFields('debitClassificationName')
+            ->withInvisibleFields('debitCostCenterId')
+            ->withInvisibleFields('debitCostCenterName')
+            ->withInvisibleFields('debitValue')
+            ->withInvisibleFields('transferValue');
+            
+            
+        $behaviorD = new VisibilityBehavior();
+        $behaviorD
+        ->withValue('D')
+        ->withInvisibleFields('creditAccountId')
+        ->withInvisibleFields('creditAccountName')
+        ->withInvisibleFields('creditClassificationId')
+        ->withInvisibleFields('creditClassificationName')
+        ->withInvisibleFields('creditCostCenterId')
+        ->withInvisibleFields('creditCostCenterName')
+        ->withInvisibleFields('creditValue')
+        ->withInvisibleFields('transferValue');
+        
+        $behaviorT = new VisibilityBehavior();
+        $behaviorT
+        ->withValue('T')
+        ->withInvisibleFields('creditValue')
+        ->withInvisibleFields('debitValue');
+            
+        $typeVisibility = new VisibilityAdapter();
+        $typeVisibility
+            ->withBehavior($behaviorC)
+            ->withBehavior($behaviorD)
+            ->withBehavior($behaviorT);
+
+        $this->addVisibilityTrigger(array('type' => $typeVisibility));
+    }
+
+    public function buildDefaults()
+    {
+        $this->addDefault(array('type' => 'C'));
     }
 }

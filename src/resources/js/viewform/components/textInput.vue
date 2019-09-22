@@ -1,6 +1,6 @@
 <template>
   <div class="md-layout-item md-small-size-100">
-    <md-field v-if="visible" >
+    <md-field v-if="visible">
       <label for="first-name">{{ label }}</label>
       <md-input
         :value="inputValue"
@@ -24,22 +24,28 @@
 <script>
 import { moduleName } from "../../helpers/dynamicModule";
 const fullModuleName = moduleName() + "/multiform";
-import { mapState } from "vuex";
+import { mapState, mapGetters } from "vuex";
 
 export default {
   name: "textInput",
   props: ["placeholder", "label", "name", "value", "readonly", "mode"],
   data() {
     return {
-      inputName: this.name,
-      visible: true,
+      inputName: this.name
     };
   },
   computed: {
     ...mapState(fullModuleName, {
       inputValue(state) {
         return state.data[this.name];
+      },
+      visible(state) {
+        return state.fields[this.name].visible;
       }
+    }),
+    ...mapGetters(fullModuleName, {
+      visibilityTriggers: "getVisibilityTriggers",
+      fields: "getFields"
     }),
     disabled() {
       return this.name === "_id";
@@ -66,6 +72,26 @@ export default {
       if (mutation.type === fullModuleName + "/API_CALL") {
         if (this.mode === "create") {
           this.inputValue = "";
+        }
+      }
+    });
+
+    this.$store.subscribe((mutation, state) => {
+      if (mutation.type === fullModuleName + "/CHANGE_DATA_PROPERTY") {
+        const { property, value } = mutation.payload;
+        if (this.visibilityTriggers.hasOwnProperty(property)) {
+          const behaviors = this.visibilityTriggers[property];
+          behaviors["behaviors"].forEach(behavior => {
+            if (behavior.value == value) {
+              for (var field in this.fields) {
+                if (this.fields.hasOwnProperty(field)) {
+                  this.fields[
+                    field
+                  ].visible = !behavior.invisibleFields.includes(field);
+                }
+              }
+            }
+          });
         }
       }
     });

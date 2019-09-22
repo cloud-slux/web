@@ -38,7 +38,6 @@ class PickerAdapter {
             array_push($pickerHiddenFields, '_id');
         }
 
-
         $this->pickerHiddenFields = $pickerHiddenFields;
         return $this;
     }

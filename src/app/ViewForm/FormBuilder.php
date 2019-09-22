@@ -45,6 +45,10 @@ class FormBuilder
 
         $form->buildPickers();
 
+        $form->buildConditionalVisibility();
+
+        $form->buildDefaults();
+
         return $form;
     }
 

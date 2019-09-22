@@ -10,6 +10,7 @@ class UIComponent
     const CHOICE = 'choice'; //radio button
     const CHECKBOX = 'checkbox';
     const NUMBER = 'number';
+    const MONEY = 'money';
     const DATEPICKER = 'datepicker';
     const CURRENCY = 'currency';
     const PICKER = 'picker';

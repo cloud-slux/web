@@ -27,7 +27,7 @@ services:
       image: node:10.16.3-alpine
       container_name: laravel-node
       working_dir: /application
-      command: /bin/sh -c "yarn install && yarn watch"
+      command: /bin/sh -c "yarn install && yarn dev"
       volumes:
         - ./src:/application
         - /application/node_modules

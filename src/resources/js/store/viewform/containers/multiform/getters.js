@@ -2,6 +2,10 @@ const getFields = state => {
     return state.fields;
 };
 
+const getDefaults = state => {
+    return state.defaults;
+}
+
 const getUsedFields = state => {
     let returnObject = {};
     for (var property in state.fields) {
@@ -62,15 +66,21 @@ const getPickers = state => {
     return state.pickers;
 };
 
+const getVisibilityTriggers = state => {
+    return state.visibilityTriggers;
+}
+
 export default {
     getFields,
     getUsedFields,
+    getDefaults,
     getSingularName,
     getSchema,
     getCreateSchema,
     getMaps,
     getPickers,
-    getApiUrl
+    getApiUrl,
+    getVisibilityTriggers,
 };
 
 export {getUsedFields}

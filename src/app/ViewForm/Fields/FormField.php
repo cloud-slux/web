@@ -16,6 +16,8 @@ abstract class FormField {
 
     public $browsed;
 
+    public $visible;
+
     public function __construct($name, $alias, $shortAlias, $type, $used, $browsed)
     {
         $this->name = $name;
@@ -28,6 +30,7 @@ abstract class FormField {
             $browsed = false;
         }
         $this->browsed = $browsed;
+        $this->visible = true;
         //$this->formHelper = $this->parent->getFormHelper();
     }
 

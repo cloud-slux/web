@@ -1,13 +1,8 @@
 <template>
   <div class="md-layout-item md-small-size-100">
-    <md-field>
+    <md-field v-if="visible">
       <label :for="name">{{ label }}</label>
-      <md-input
-        v-model="inputDisplay"
-        :name="name"
-        :placeholder="placeholder"
-        :disabled="disabled"
-      ></md-input>
+      <md-input v-model="inputDisplay" :name="name" :placeholder="placeholder" :disabled="disabled"></md-input>
       <md-button class="md-raised md-primary md-icon-button" @click.native="onPickerModalActive()">
         <md-icon>search</md-icon>
       </md-button>
@@ -64,14 +59,15 @@
               ></md-table-empty-state>
 
               <md-table-row slot="md-table-row" slot-scope="{ item }" md-selectable="single">
-                 <md-table-cell v-for="pickerSchemaField in pickerDeclaredVisibleSchema" :md-label="pickerSchemaField.shortAlias"
-                :md-sort-by="pickerSchemaField.name" :key="pickerSchemaField.name">
-
-                 {{ item[pickerSchemaField.name] }}
-                </md-table-cell>
+                <md-table-cell
+                  v-for="pickerSchemaField in pickerDeclaredVisibleSchema"
+                  :md-label="pickerSchemaField.shortAlias"
+                  :md-sort-by="pickerSchemaField.name"
+                  :key="pickerSchemaField.name"
+                >{{ item[pickerSchemaField.name] }}</md-table-cell>
 
                 <!-- <md-table-cell md-label="Código" md-sort-by="name">{{ item.code }}</md-table-cell>
-                <md-table-cell md-label="Descrição" md-sort-by="valor">{{ item.description }}</md-table-cell> -->
+                <md-table-cell md-label="Descrição" md-sort-by="valor">{{ item.description }}</md-table-cell>-->
               </md-table-row>
             </md-table>
           </p>
@@ -92,7 +88,7 @@
   </div>
 </template>
 <script>
-import { mapGetters } from "vuex";
+import { mapState, mapGetters } from "vuex";
 
 import { moduleName } from "../../helpers/dynamicModule";
 const fullModuleName = moduleName() + "/multiform";
@@ -145,16 +141,28 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(fullModuleName, { apiUrl: "getApiUrl" }),
+    ...mapState(fullModuleName, {
+      visible(state) {
+        return state.fields[this.name].visible;
+      }
+    }),
+    ...mapGetters(fullModuleName, {
+      apiUrl: "getApiUrl",
+      visibilityTriggers: "getVisibilityTriggers",
+      fields: "getFields"
+    }),
     disabled() {
       return this.name === "_id";
     },
-    pickerDeclaredVisibleSchema(){
-        const pickerDeclaredVisibleSchema = Object.assign({}, this.pickerDeclaredSchema);
-        this.pickerDeclaredHiddenFields.forEach(hiddenField => {
-            delete pickerDeclaredVisibleSchema[hiddenField];
-        });
-        return pickerDeclaredVisibleSchema;
+    pickerDeclaredVisibleSchema() {
+      const pickerDeclaredVisibleSchema = Object.assign(
+        {},
+        this.pickerDeclaredSchema
+      );
+      this.pickerDeclaredHiddenFields.forEach(hiddenField => {
+        delete pickerDeclaredVisibleSchema[hiddenField];
+      });
+      return pickerDeclaredVisibleSchema;
     }
   },
   created: function() {
@@ -177,17 +185,16 @@ export default {
         this.inputValue = this.picked._id;
         this.inputDisplay = eval(`\`${this.pickerDisplayExpression}\``);
 
-
         this.$store.dispatch(fullModuleName + "/changeDataProperty", {
-            property: this.name,
-            value: this.inputValue
+          property: this.name,
+          value: this.inputValue
         });
 
         this.pickerDeclaredHooks.forEach(element => {
-            this.$store.dispatch(fullModuleName + "/changeDataProperty", {
-                property: element['property'],
-                value: eval(`\`${element['value']}\``)
-            });
+          this.$store.dispatch(fullModuleName + "/changeDataProperty", {
+            property: element["property"],
+            value: eval(`\`${element["value"]}\``)
+          });
         });
 
         this.pickerModalAtive = false;
@@ -203,27 +210,28 @@ export default {
       this.pickerSearched = searchByName(this.pickerData, this.pickerSearch);
     },
     filterOnTable() {
-
       let limit = 5;
-      if(!!this.pickerFilter){
-          limit = 999;
+      if (!!this.pickerFilter) {
+        limit = 999;
       }
 
       let fullurl = `${this.apiUrl}${this.pickerDeclaredRoute}?limit=${limit}&select=`;
 
-      let preFilterSentence = ''
-      if(this.pickerPreFilter.length > 0){
-          preFilterSentence = `.AND.${this.pickerPreFilter}`;
+      let preFilterSentence = "";
+      if (this.pickerPreFilter.length > 0) {
+        preFilterSentence = `.AND.${this.pickerPreFilter}`;
       }
 
       let schemaNames = Object.keys(this.pickerDeclaredSchema);
       let schemaFilters = [...schemaNames.keys()];
       for (let index = 0; index < schemaNames.length; index++) {
-          schemaFilters[index] = `'${schemaNames[index]}'$cts"${this.pickerFilter}"`;
+        schemaFilters[
+          index
+        ] = `'${schemaNames[index]}'$cts"${this.pickerFilter}"`;
       }
 
       fullurl += schemaNames.join(",");
-      if(!(this.pickerFilter === "")){
+      if (!(this.pickerFilter === "")) {
         fullurl += `&q=(${schemaFilters.join(".OR.")})${preFilterSentence}`;
       }
       //this.pickerLoading = true;
@@ -239,6 +247,26 @@ export default {
       if (mutation.type === fullModuleName + "/API_CALL") {
         if (this.mode === "create") {
           this.inputValue = "";
+        }
+      }
+    });
+
+    this.$store.subscribe((mutation, state) => {
+      if (mutation.type === fullModuleName + "/CHANGE_DATA_PROPERTY") {
+        const { property, value } = mutation.payload;
+        if (this.visibilityTriggers.hasOwnProperty(property)) {
+          const behaviors = this.visibilityTriggers[property];
+          behaviors["behaviors"].forEach(behavior => {
+            if (behavior.value == value) {
+              for (var field in this.fields) {
+                if (this.fields.hasOwnProperty(field)) {
+                  this.fields[
+                    field
+                  ].visible = !behavior.invisibleFields.includes(field);
+                }
+              }
+            }
+          });
         }
       }
     });
