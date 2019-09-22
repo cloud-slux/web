@@ -39,6 +39,7 @@ import choiceInput from "./viewform/components/choiceInput";
 import selectInput from "./viewform/components/selectInput";
 import pickerInput from "./viewform/components/pickerInput";
 import textInput from "./viewform/components/textInput";
+import datePickerInput from "./viewform/components/datePickerInput";
 import progressBar from "./viewform/components/progressBar";
 
 
@@ -87,6 +88,7 @@ const app = new Vue({
         'picker-input': pickerInput,
         'select-input': selectInput,
         'number-input': numberInput,
-        'money-input': moneyInput
+        'money-input': moneyInput,
+        'datepicker-input': datePickerInput,
     }
 });

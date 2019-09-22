@@ -70,6 +70,10 @@ const getVisibilityTriggers = state => {
     return state.visibilityTriggers;
 }
 
+const getData = state => {
+    return state.data;
+}
+
 export default {
     getFields,
     getUsedFields,
@@ -81,6 +85,7 @@ export default {
     getPickers,
     getApiUrl,
     getVisibilityTriggers,
+    getData,
 };
 
 export {getUsedFields}

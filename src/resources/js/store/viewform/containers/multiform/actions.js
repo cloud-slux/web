@@ -48,7 +48,11 @@ const emptyData = ({ commit, state }) => {
             if(state.defaults.hasOwnProperty(field.name)){
                 emptyObject[field.name] = state.defaults[field.name];
             }else{
-                emptyObject[field.name] = '';
+                if(field.type == 'datepicker'){
+                    emptyObject[field.name] = new Date(Date.now()).toISOString().split('T')[0];
+                }else{
+                    emptyObject[field.name] = '';
+                }
             }
         }
     }
