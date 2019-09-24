@@ -3,7 +3,7 @@
     <md-field v-if="visible">
       <label for="first-name">{{ label }}</label>
       <md-input
-        :value="inputValue"
+        v-model="inputValue"
         :name="name"
         type="number"
         :placeholder="placeholder"
@@ -26,6 +26,7 @@
 import { moduleName } from "../../helpers/dynamicModule";
 const fullModuleName = moduleName() + "/multiform";
 import { mapState, mapGetters } from "vuex";
+import _ from 'lodash';
 
 export default {
   name: "numberInput",
@@ -36,10 +37,15 @@ export default {
     };
   },
   computed: {
-    ...mapState(fullModuleName, {
-      inputValue(state) {
-        return state.data[this.name];
+    inputValue: {
+      get() {
+        return this.$store.getters[fullModuleName + "/getData"][this.name];
       },
+      set: _.debounce(function(newValue) {
+        this.updateStore(newValue);
+      }, 500)
+    },
+    ...mapState(fullModuleName, {
       visible(state) {
         return state.fields[this.name].visible;
       }
@@ -52,19 +58,11 @@ export default {
       return this.name === "_id";
     }
   },
-  watch: {
-    inputValue(val) {
-      this.debouncedUpdateStore();
-    }
-  },
-  created: function() {
-    this.debouncedUpdateStore = _.debounce(this.updateStore, 500);
-  },
   methods: {
-    updateStore() {
+    updateStore(newValue) {
       this.$store.dispatch(fullModuleName + "/changeDataProperty", {
         property: this.name,
-        value: this.inputValue
+        value: newValue
       });
     }
   },

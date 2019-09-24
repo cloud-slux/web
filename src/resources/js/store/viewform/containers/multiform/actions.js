@@ -77,6 +77,7 @@ const apiCreate = ({ commit, state }) => {
 
 const apiUpdate = ({ commit, state }) => {
     let fullurl = state.apiUrl + moduleName();
+    debugger;
 
     commit(types.API_CALLING);
 
